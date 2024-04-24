@@ -22,6 +22,7 @@
                                         <img src="{{ $book['volumeInfo']['imageLinks']['thumbnail'] ?? '' }}" alt="Cover Image" style="width: 120px; height: 180px;" class="object-cover mx-auto rounded-xl shadow-2xl">
                                 </div>
                             </div>
+                            
                             </div>
                             </a>
                             @endforeach
@@ -30,10 +31,4 @@
                 </div>
         </div>
     </div>
-    <script>
-        var startIndex = {{ count($books) }};  // Using PHP's count function for arrays
-        var maxResults = 24;
-        var loading = false;
-    </script>
-    <script src="{{ asset('public/bookScroll.js') }}"></script>
 </x-app-layout>
