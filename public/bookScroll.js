@@ -3,27 +3,30 @@ document.addEventListener("DOMContentLoaded", function () {
     let loading = false;
 
     window.onscroll = function () {
-        // Check if the user is near the bottom of the page and if not currently loading
         if (
             window.innerHeight + window.pageYOffset >=
-                document.body.offsetHeight - 2 &&
+                document.body.offsetHeight - 200 &&
             !loading
         ) {
             loading = true;
-            fetch(`/dashboard?startIndex=${startIndex}&query=programming`, {
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                },
-            })
+            const query =
+                document.getElementById("searchQuery").value || "defaultQuery"; // Get the search query or default
+            fetch(
+                `/dashboard?query=${encodeURIComponent(
+                    query
+                )}&startIndex=${startIndex}&maxResults=24`,
+                {
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                }
+            )
                 .then((response) => response.text())
                 .then((html) => {
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, "text/html");
-                    const newBooks = doc.querySelector(".grid");
-                    if (newBooks) {
-                        document.querySelector(".grid").appendChild(newBooks);
-                        startIndex += 24; // Increment to fetch the next set of books
-                    }
+                    document
+                        .querySelector(".grid")
+                        .appendChild(doc.querySelector(".grid"));
+                    startIndex += 24;
                     loading = false;
                 })
                 .catch((error) => {

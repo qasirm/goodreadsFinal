@@ -1,8 +1,7 @@
 <x-app-layout>
-<x-slot name="header">
-    <div class="flex items-center space-x-2 text-lg font-medium text-gray-700"> Explore
-        </div>
-    </x-slot>
+<!-- <x-slot name="header">
+    <div class="flex items-center space-x-2 text-lg font-medium text-gray-700"> My favs</div>
+    </x-slot> -->
     <div class="py-12">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="p-6 text-gray-900">
@@ -30,10 +29,4 @@
                 </div>
         </div>
     </div>
-    <script>
-        var startIndex = {{ count($books) }};  // Using PHP's count function for arrays
-        var maxResults = 24;
-        var loading = false;
-    </script>
-    <script src="{{ asset('public/bookScroll.js') }}"></script>
 </x-app-layout>

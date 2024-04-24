@@ -15,7 +15,7 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Explore') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('favorites')" :active="request()->routeIs('favorites')">
                         {{ __('My Books') }}
                     </x-nav-link>
                 </div>
@@ -24,7 +24,7 @@
             </div>
 
             <form method="GET" action="{{ route('dashboard') }}" class="flex items-center">
-                        <input type="text" name="query" placeholder="Search for books..." class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm flex-grow sm:mr-3 mb-3 sm:mb-0">
+                        <input type="text" name="query" placeholder="Search for books..." class="h-8 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm flex-grow sm:mr-3 mb-3 sm:mb-0">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Search
                         </button>

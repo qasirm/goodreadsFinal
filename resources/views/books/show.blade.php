@@ -1,8 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Book Details
-        </h2>
+    <div class="flex items-center space-x-2 text-md text-gray-500">
+            <a href="{{ url('/') }}" class="hover:underline">Home</a>
+            <span>/</span>
+            <span class="text-gray-800">{{ $book['volumeInfo']['title'] ?? 'Book Details' }}</span>
+        </div>
     </x-slot>
 
     <div class="py-12">

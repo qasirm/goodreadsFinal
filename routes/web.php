@@ -10,6 +10,10 @@ Route::get('/', [BookSearchController::class, 'search'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+Route::get('/favorites', [BookSearchController::class, 'search'])
+    ->middleware(['auth', 'verified'])
+    ->name('favorites');
+
 Route::get('/books/{id}', [BookSearchController::class, 'show'])
     ->middleware(['auth', 'verified'])
     ->name('books.show');
