@@ -1,17 +1,22 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+                    <!-- Books Display -->
+                    @if (!empty($books))
+                        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                            @foreach ($books as $book)
+                                <div class="p-4">
+                                    <a href="{{ route('books.show', ['id' => $book['id']]) }}" class="text-gray-900 hover:text-gray-600">
+                                        <img src="{{ $book['volumeInfo']['imageLinks']['thumbnail'] ?? '' }}" alt="Cover Image" class="h-60 mb-2">
+                                        <div class="text-lg font-bold mb-2">{{ $book['volumeInfo']['title'] ?? 'No Title' }}</div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
-            </div>
         </div>
     </div>
+    <script src="{{ asset('js/bookScroll.js') }}"></script>
 </x-app-layout>
