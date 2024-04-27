@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\Book;
 
 class BookSearchController extends Controller
 {
@@ -26,16 +27,23 @@ class BookSearchController extends Controller
 }
 
 
-    public function show($id)
-    {
-    $apiKey = env('GOOGLE_BOOKS_API_KEY', ''); // Assuming you might reconsider using an API key
+public function show($id)
+{
+    $apiKey = env('GOOGLE_BOOKS_API_KEY', '');
     $url = "https://www.googleapis.com/books/v1/volumes/{$id}?key={$apiKey}";
 
     $response = Http::get($url);
     $book = $response->json();
 
-    return view('books.show', compact('book'));
-    }   
+    // Attempt to retrieve the local book entry to get comments
+    $localBook = Book::where('id', $id)->first();
+
+    // Fetch comments only if the book is found locally
+    $comments = $localBook ? $localBook->comments : collect();
+
+    return view('books.show', compact('book', 'comments'));
+}
+ 
 
     public function index(Request $request)
 {

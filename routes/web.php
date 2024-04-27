@@ -15,9 +15,7 @@ Route::get('/', [BookSearchController::class, 'search'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::post('/books/{book}/comments', [CommentController::class, 'store'])->name('comments.store');
-Route::get('/books/{book}', [CommentController::class, 'index'])->name('books.show');
-    
+Route::post('/books/{id}/comments', [CommentController::class, 'store'])->name('comments.store');
 
 Route::get('/favorites', [FavoritesController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -32,6 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('/friends/send', [FriendsController::class, 'sendRequest'])->name('friends.send');
+Route::post('/friends/accept/{id}', [FriendsController::class, 'acceptRequest'])->name('friends.accept');
+Route::get('/friends', [FriendsController::class, 'listFriends'])->name('friends.list');
+
+Route::get('/nook/{userId}', [ProfileController::class, 'show'])->name('nook.show');
+
 
 
 

@@ -18,6 +18,10 @@
                     <x-nav-link :href="route('favorites')" :active="request()->routeIs('favorites')">
                         {{ __('My Books') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('nook.show', Auth::user()->id)" :active="request()->routeIs('nook.show', Auth::user()->id)">
+                        {{ __('My Nook') }}
+                    </x-nav-link>
+
                 </div>
                 
                 

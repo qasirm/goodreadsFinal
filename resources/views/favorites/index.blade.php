@@ -20,7 +20,7 @@
                                         <div class="flex-1 flex items-center justify-center">
                                             <img src="{{ $favorite->book->thumbnail }}" alt="Cover Image" style="width: 120px; height: 180px;" class="object-cover mx-auto rounded-xl shadow-2xl">
                                         </div>
-                                        <button onclick="toggleFavorite(this)" class="absolute bottom-4 right-5 text-gray-400 hover:text-red-500 z-10"
+                                        <button onclick="toggleFavorite(this)" class="absolute bottom-4 right-5 text-gray-400 hover:text-red-500"
                                                 data-id="{{ $favorite->book->id }}"
                                                 data-title="{{ $favorite->book->title }}"
                                                 data-author="{{ $favorite->book->author }}"

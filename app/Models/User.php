@@ -54,4 +54,23 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function friends()
+{
+    return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
+                ->wherePivot('is_confirmed', true);
+}
+
+public function friendRequests()
+{
+    return $this->belongsToMany(User::class, 'friendships', 'friend_id', 'user_id')
+                ->wherePivot('is_confirmed', false);
+}
+
+public function sentRequests()
+{
+    return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
+                ->wherePivot('is_confirmed', false);
+}
+
 }

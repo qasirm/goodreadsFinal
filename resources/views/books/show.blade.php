@@ -58,12 +58,39 @@
 
                     <!-- Link to Google Books -->
                     <div class="mt-4">
-                        <a href="{{ $book['volumeInfo']['infoLink'] }}" target="_blank" class="text-blue-500 hover:text-blue-600">
-                            View on Google Books
-                        </a>
+                    @if (isset($book['volumeInfo']) && isset($book['volumeInfo']['infoLink']))
+    <a href="{{ $book['volumeInfo']['infoLink'] }}" target="_blank" class="text-blue-500 hover:text-blue-600">
+        More Info
+    </a>
+@else
+    <p>More information not available.</p>
+@endif
+
                     </div>
                 </div>
             </div>
+            <!-- Comment Form -->
+<div class="mt-6 bg-white p-6 shadow-sm rounded-lg">
+    <h3 class="text-xl mb-4">Leave a Comment</h3>
+    <form action="{{ route('comments.store', $book['id']) }}" method="POST">
+        @csrf
+        <textarea name="body" class="w-full rounded border-gray-300" rows="4" placeholder="Your comment..." required></textarea>
+        <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Post Comment</button>
+    </form>
+</div>
+@if($comments->isNotEmpty())
+    @foreach($comments as $comment)
+    <div class="mt-6 bg-white p-6 shadow-sm rounded-lg">{{ $comment->user->name }}: {{ $comment->body }}</div>
+    @endforeach
+@else
+    <p>No comments available.</p>
+@endif
+
         </div>
+        
+
+
+
+        
     </div>
 </x-app-layout>
