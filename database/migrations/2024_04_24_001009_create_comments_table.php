@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->text('body');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+            $table->string('book_id');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');  // Correct way to add a foreign key constraint on a string column
             $table->timestamps();
         });
-        
     }
 
     /**
@@ -26,6 +26,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('comments', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['book_id']);
+        });
         Schema::dropIfExists('comments');
     }
 };

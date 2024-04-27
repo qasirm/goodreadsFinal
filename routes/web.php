@@ -2,18 +2,22 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookSearchController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoritesController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\FavoritesController;
 
 // API route for toggling favorites
-Route::post('/favorites/toggle/{book}', [FavoritesController::class, 'toggle'])->middleware('auth:sanctum');
+Route::post('/favorites/toggle', [FavoritesController::class, 'toggle'])->middleware('auth');
 
 
 
 Route::get('/', [BookSearchController::class, 'search'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::post('/books/{book}/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/books/{book}', [CommentController::class, 'index'])->name('books.show');
+    
 
 Route::get('/favorites', [FavoritesController::class, 'index'])
     ->middleware(['auth', 'verified'])

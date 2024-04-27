@@ -9,11 +9,11 @@ class BookSearchController extends Controller
 {
     public function search(Request $request)
 {
-    $query = $request->input('query', 'popular'); // Use a default fallback query
+    $query = $request->input('query', 'circe'); // Use a default fallback query
     $startIndex = $request->input('startIndex', 0);
     $maxResults = $request->input('maxResults', 20);
 
-    $url = "https://www.googleapis.com/books/v1/volumes?q={$query}&startIndex={$startIndex}&maxResults={$maxResults}";
+    $url = "https://www.googleapis.com/books/v1/volumes?q={$query}&startIndex={$startIndex}&maxResults={$maxResults}&orderBy=relevance";
     $response = Http::get($url);
     $books = $response->json()['items'] ?? [];
     $totalItems = $response->json()['totalItems'] ?? 0;
