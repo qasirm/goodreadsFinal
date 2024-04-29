@@ -1,5 +1,6 @@
 
 <x-app-layout>
+@section('title', 'Explore Books')
 <x-slot name="header">
     <div class="flex items-center space-x-2 text-lg font-medium text-gray-700"> Explore
         </div>

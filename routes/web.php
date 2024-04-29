@@ -9,6 +9,23 @@ use App\Http\Controllers\FriendsController;
 use Illuminate\Support\Facades\Route;
 
 // API route for toggling favorites
+
+Route::get('/test-success', function () {
+    return redirect()->back()->with('success', 'Success notification test.');
+});
+
+Route::get('/test-error', function () {
+    return redirect()->back()->with('error', 'Error notification test.');
+});
+
+Route::get('/test-info', function () {
+    return redirect()->back()->with('info', 'Info notification test.');
+});
+
+Route::get('/test-warning', function () {
+    return redirect()->back()->with('warning', 'Warning notification test.');
+});
+
 Route::post('/favorites/toggle', [FavoritesController::class, 'toggle'])->middleware('auth');
 
 Route::get('/', [BookSearchController::class, 'search'])
@@ -36,6 +53,8 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/friends/send', [FriendsController::class, 'sendRequest'])->name('friends.send');
 Route::post('/friends/accept/{id}', [FriendsController::class, 'acceptRequest'])->name('friends.accept');
+Route::delete('/friends/remove/{id}', [FriendsController::class, 'removeFriend'])->name('friends.remove');
+
 Route::get('/friends', [FriendsController::class, 'listFriends'])->name('friends.list');
 Route::post('/search-users', [FriendsController::class, 'searchUsers'])->name('user.search');
 Route::get('/search-results', [FriendsController::class, 'searchUsers'])->name('user.search.results');

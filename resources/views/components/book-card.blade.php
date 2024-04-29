@@ -1,6 +1,5 @@
 {{-- resources/views/components/book-card.blade.php --}}
-<div class="bg-white h-80 rounded-3xl text-neutral-500 duration-300 hover:duration-100 hover:bg-neutral-200/40 transition-colors relative"
-     title="Favorited at {{ $favorite->created_at->format('M d, Y H:i') }}">
+<div class="bg-white h-80 rounded-3xl text-neutral-500 duration-300 hover:duration-100 hover:bg-neutral-200/40 transition-colors relative tooltip-container">
     <header class="p-4">
         <div class="text-md mb-1 truncate">{{ $book->title }}</div>
         <div class="text-sm font-medium text-gray-900 truncate">{{ $book->author }}</div>

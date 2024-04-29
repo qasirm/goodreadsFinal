@@ -56,21 +56,23 @@ class User extends Authenticatable
     }
 
     public function friends()
-{
-    return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
-                ->wherePivot('is_confirmed', true);
-}
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
+                    ->wherePivot('is_confirmed', true)
+                    ->withTimestamps();
+    }
 
-public function friendRequests()
-{
-    return $this->belongsToMany(User::class, 'friendships', 'friend_id', 'user_id')
-                ->wherePivot('is_confirmed', false);
-}
+    public function receivedRequests()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'friend_id', 'user_id')
+                    ->wherePivot('is_confirmed', false)
+                    ->withTimestamps();
+    }
 
-public function sentRequests()
-{
-    return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
-                ->wherePivot('is_confirmed', false);
-}
-
+    public function sentRequests()
+    {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id')
+                    ->wherePivot('is_confirmed', false)
+                    ->withTimestamps();
+    }
 }

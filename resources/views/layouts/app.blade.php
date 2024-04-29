@@ -13,6 +13,8 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
@@ -62,6 +64,40 @@
             .catch(error => console.error('Error:', error));
         }
         </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+toastr.options = {
+    closeButton: true,
+    debug: false,
+    newestOnTop: false,
+    progressBar: true,
+    positionClass: "toast-top-right",
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "5000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+};
+
+@if(session('success'))
+    toastr.success("{{ session('success') }}");
+@endif
+@if(session('error'))
+    toastr.error("{{ session('error') }}");
+@endif
+@if(session('info'))
+    toastr.info("{{ session('info') }}");
+@endif
+@if(session('warning'))
+    toastr.warning("{{ session('warning') }}");
+@endif
+</script>
+
 
         @stack('scripts')
     </body>
