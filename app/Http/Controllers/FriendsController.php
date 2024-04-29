@@ -19,13 +19,13 @@ class FriendsController extends Controller
     $searchResults = User::where('name', 'LIKE', '%' . $query . '%')
                          ->where('id', '!=', $userId)
                          ->whereDoesntHave('friends', function ($q) use ($userId) {
-                             $q->where('user_id', $userId); // Confirmed friends
+                             $q->where('user_id', $userId); 
                          })
                          ->whereDoesntHave('receivedRequests', function ($q) use ($userId) {
-                             $q->where('user_id', $userId); // Pending received requests
+                             $q->where('user_id', $userId);
                          })
                          ->whereDoesntHave('sentRequests', function ($q) use ($userId) {
-                             $q->where('friend_id', $userId); // Pending sent requests
+                             $q->where('friend_id', $userId); 
                          })
                          ->get();
 
@@ -37,7 +37,7 @@ class FriendsController extends Controller
     public function friends()
 {
     return $this->belongsToMany(User::class, 'friend_user', 'user_id', 'friend_id')
-                ->wherePivot('is_confirmed', true); // Only confirmed friends
+                ->wherePivot('is_confirmed', true); 
 }
 
 public function sendRequest(Request $request)
@@ -45,7 +45,6 @@ public function sendRequest(Request $request)
         $recipientId = $request->friend_id;
         $userId = Auth::id();
 
-        // Check for existing request or friendship
         $exists = DB::table('friendships')
                     ->where(function ($query) use ($userId, $recipientId) {
                         $query->where('user_id', $userId)->where('friend_id', $recipientId);
@@ -59,7 +58,7 @@ public function sendRequest(Request $request)
             return back()->with('info', 'Friendship or request already exists.');
         }
 
-        // Create new friend request
+       
         DB::table('friendships')->insert([
             'user_id' => $userId,
             'friend_id' => $recipientId,
@@ -73,19 +72,14 @@ public function sendRequest(Request $request)
 
     public function acceptRequest(Request $request, $senderId)
     {
-        if (Gate::denies('manage-friend-request', $senderId)) {
-            abort(403, 'Unauthorized action.');
-        }
         DB::transaction(function () use ($senderId) {
             $userId = Auth::id();
 
-            // Confirm the existing request
             DB::table('friendships')
                 ->where('user_id', $senderId)
                 ->where('friend_id', $userId)
                 ->update(['is_confirmed' => true, 'updated_at' => now()]);
-
-            // Insert the reciprocal row for mutual friendship
+\
             DB::table('friendships')->insert([
                 'user_id' => $userId,
                 'friend_id' => $senderId,
@@ -106,12 +100,9 @@ public function sendRequest(Request $request)
 
     public function removeFriend(Request $request, $friendId)
 {
-    if (Gate::denies('manage-friendship', $friendId)) {
-        abort(403, 'Unauthorized action.');
-    }
     $user = Auth::user();
     $user->friends()->detach($friendId);
-    $user->receivedRequests()->detach($friendId); // To clean up any remaining non-confirmed requests
+    $user->receivedRequests()->detach($friendId); 
 
     return back()->with('success', 'Friend removed successfully.');
 }

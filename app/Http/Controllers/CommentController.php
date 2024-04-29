@@ -51,6 +51,7 @@ class CommentController extends Controller
 
     public function destroy($bookId, $commentId)
     {
+        
         $comment = Comment::where('book_id', $bookId)->findOrFail($commentId);
 
         if ($comment->user_id !== Auth::id()) {

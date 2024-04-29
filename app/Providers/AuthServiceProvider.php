@@ -8,6 +8,11 @@ use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
+
+    protected $policies = [
+        Comment::class => CommentPolicy::class,
+        User::class => FriendPolicy::class,
+    ];
     /**
      * Register services.
      */
@@ -21,18 +26,9 @@ class AuthServiceProvider extends ServiceProvider
      */
 
 
-public function boot()
-{
-    $this->registerPolicies();
-
-    // Define your gates here
-    Gate::define('manage-friend-request', function (User $user, $friendId) {
-        return $user->receivedRequests()->where('id', $friendId)->exists();
-    });
-
-    Gate::define('manage-friendship', function (User $user, $friendId) {
-        return $user->friends()->where('id', $friendId)->exists();
-    });
-}
+    public function boot()
+    {
+        
+    }
 
 }
