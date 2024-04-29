@@ -13,7 +13,7 @@ class FavoritesController extends Controller
 {
     public function index()
     {
-        $favorites = Favorite::with('book')->where('user_id', auth()->id())->get();
+        $favorites = Favorite::with('book')->where('user_id', auth()->id())->orderBy('updated_at', 'desc')->get();
         return view('favorites.index', compact('favorites'));
     }
 

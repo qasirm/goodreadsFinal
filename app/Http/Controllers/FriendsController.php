@@ -8,6 +8,24 @@ use Illuminate\Support\Facades\Auth;
 
 class FriendsController extends Controller
 {
+
+    public function searchUsers(Request $request)
+{
+    $query = $request->input('search');
+    $searchResults = User::where('name', 'LIKE', '%' . $query . '%')
+                         ->where('id', '!=', Auth::id())  // Exclude the current user from search results
+                         ->get();
+
+    return redirect()->back()->with('search_results', $searchResults);
+}
+
+
+    public function friends()
+{
+    return $this->belongsToMany(User::class, 'friend_user', 'user_id', 'friend_id')
+                ->wherePivot('is_confirmed', true); // Only confirmed friends
+}
+
     public function sendRequest(Request $request)
     {
         $recipient = User::findOrFail($request->friend_id);

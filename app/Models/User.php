@@ -11,12 +11,12 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    public function favorites(): HasMany
+    public function favorites()
     {
         return $this->hasMany(Favorite::class);
     }
 
-    public function comments(): HasMany
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }

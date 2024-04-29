@@ -39,7 +39,7 @@ public function show($id)
     $localBook = Book::where('id', $id)->first();
 
     // Fetch comments only if the book is found locally
-    $comments = $localBook ? $localBook->comments : collect();
+    $comments = $localBook ? $localBook->comments()->orderBy('created_at', 'desc')->get() : collect();
 
     return view('books.show', compact('book', 'comments'));
 }

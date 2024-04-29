@@ -1,35 +1,3 @@
-<script>
-function toggleFavorite(event, element) {
-    event.stopPropagation();
-
-    const bookData = {
-        id: element.getAttribute('data-id'),
-        title: element.getAttribute('data-title'),
-        author: element.getAttribute('data-author'),
-        thumbnail: element.getAttribute('data-thumbnail'),
-        isbn: element.getAttribute('data-isbn'),
-        description: element.getAttribute('data-description')
-    };
-
-    fetch('/favorites/toggle', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify(bookData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.favorited ? 'Book favorited!' : 'Book unfavorited!');
-        element.setAttribute('data-favorited', data.favorited ? 'true' : 'false');
-        const iconElement = element.querySelector('i');
-        iconElement.className = data.favorited ? 'fas fa-heart text-red-500' : 'far fa-heart';
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-</script>
 
 <x-app-layout>
 <x-slot name="header">

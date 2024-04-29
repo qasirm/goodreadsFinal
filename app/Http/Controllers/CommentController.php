@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -26,8 +27,38 @@ class CommentController extends Controller
     public function index($bookId)
     {
         $book = Book::with(['comments.user'])->findOrFail($bookId);
-        $comments = $book->comments()->orderBy('created_at', 'desc')->get();
 
         return view('books.show', ['book' => $book, 'comments' => $comments]);
+    }
+
+    public function update(Request $request, $bookId, $commentId)
+    {
+        $comment = Comment::where('book_id', $bookId)->findOrFail($commentId);
+
+        if ($comment->user_id !== Auth::id()) {
+            return back()->with('error', 'Unauthorized to edit this comment.');
+        }
+
+        $request->validate([
+            'body' => 'required|string'
+        ]);
+
+        $comment->body = $request->body;
+        $comment->save();
+
+        return back()->with('success', 'Comment updated successfully.');
+    }
+
+    public function destroy($bookId, $commentId)
+    {
+        $comment = Comment::where('book_id', $bookId)->findOrFail($commentId);
+
+        if ($comment->user_id !== Auth::id()) {
+            return back()->with('error', 'Unauthorized to delete this comment.');
+        }
+
+        $comment->delete();
+
+        return back()->with('success', 'Comment deleted successfully.');
     }
 }
