@@ -1,16 +1,16 @@
-<x-app-layout>
-@section('title', 'Favorites')
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            My Favorites
-        </h2>
-    </x-slot>
+{{-- Extend the main layout --}}
+@extends('layouts.app')
 
+{{-- Set the page title --}}
+@section('title', 'Favorites')
+
+{{-- Content section where you place your page content --}}
+@section('content')
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
             <div class="p-6">
                 @if ($favorites->isNotEmpty())
-                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2 gap-y-12">
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-2 gap-y-12">
                         @foreach ($favorites as $favorite)
                             <div class="bg-white h-80 rounded-3xl text-neutral-500 duration-300 hover:duration-100 hover:bg-neutral-200/40 transition-colors relative group">
                                 <a href="{{ route('books.show', ['id' => $favorite->book->id]) }}" class="text-gray-900 hover:text-gray-600">
@@ -48,4 +48,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

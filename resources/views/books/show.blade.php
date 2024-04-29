@@ -1,14 +1,15 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center space-x-2 text-md text-gray-500">
-            <a href="{{ url('/') }}" class="hover:underline">Home</a>
-            <span>/</span>
-            <span class="text-gray-800">{{ $book['volumeInfo']['title'] ?? 'Book Details' }}</span>
-        </div>
-    </x-slot>
+{{-- Extend the main layout --}}
+@extends('layouts.app')
 
+{{-- Set the page title --}}
+@section('title', 'Explore Books')
+
+{{-- Content section where you place your page content --}}
+@section('content')
     <div class="py-12">
+        
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
             <!-- Book Cover Image -->
             <div class="md:col-span-1">
                 @if (isset($book['volumeInfo']['imageLinks']['thumbnail']))
@@ -97,4 +98,5 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+    @endsection
+

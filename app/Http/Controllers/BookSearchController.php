@@ -4,27 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 
 class BookSearchController extends Controller
 {
     public function search(Request $request)
 {
-    $query = $request->input('query', 'circe'); // Use a default fallback query
-    $startIndex = $request->input('startIndex', 0);
-    $maxResults = $request->input('maxResults', 20);
-
-    $url = "https://www.googleapis.com/books/v1/volumes?q={$query}&startIndex={$startIndex}&maxResults={$maxResults}&orderBy=relevance";
+    $query = $request->input('query', 'circe');
+    $url = "https://www.googleapis.com/books/v1/volumes?q={$query}&maxResults=40";
     $response = Http::get($url);
     $books = $response->json()['items'] ?? [];
-    $totalItems = $response->json()['totalItems'] ?? 0;
 
-    if ($request->ajax()) {
-        return view('partials.books_grid', compact('books'));
-    }
+    // Retrieve only the IDs of the favorited books for the logged-in user
+    $favoritedBookIds = Auth::user()->favorites()->pluck('book_id')->toArray();
 
-    return view('dashboard', compact('books', 'totalItems', 'startIndex', 'maxResults'));
+    return view('dashboard', compact('books', 'favoritedBookIds'));
 }
+
+
 
 
 public function show($id)
@@ -51,13 +49,14 @@ public function show($id)
     $maxResults = 24; // Number of books to fetch per page
 
     // Assuming you are fetching books from an API or database
-    $books = Book::skip($startIndex)->take($maxResults)->get(); // Update this according to your data source
+    $books = Book::skip($startIndex)->take($maxResults)->get(); 
+    $favoritedBookIds = Auth::user()->favorites()->pluck('book_id')->toArray();
 
     if ($request->ajax()) {
         return view('partials.books_grid', compact('books'));
     }
 
-    return view('dashboard', compact('books'));
+    return view('dashboard', compact('books', 'favoritedBookIds'));
 }
 
     

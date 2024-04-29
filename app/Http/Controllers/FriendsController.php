@@ -73,6 +73,9 @@ public function sendRequest(Request $request)
 
     public function acceptRequest(Request $request, $senderId)
     {
+        if (Gate::denies('manage-friend-request', $senderId)) {
+            abort(403, 'Unauthorized action.');
+        }
         DB::transaction(function () use ($senderId) {
             $userId = Auth::id();
 
@@ -103,6 +106,9 @@ public function sendRequest(Request $request)
 
     public function removeFriend(Request $request, $friendId)
 {
+    if (Gate::denies('manage-friendship', $friendId)) {
+        abort(403, 'Unauthorized action.');
+    }
     $user = Auth::user();
     $user->friends()->detach($friendId);
     $user->receivedRequests()->detach($friendId); // To clean up any remaining non-confirmed requests

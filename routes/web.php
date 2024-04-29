@@ -10,21 +10,26 @@ use Illuminate\Support\Facades\Route;
 
 // API route for toggling favorites
 
+Route::get('/toastr-test', function () {
+    return view('test_toastr');  // Ensure you have created this view
+});
+
+// Routes to trigger different Toastr notifications
 Route::get('/test-success', function () {
-    return redirect()->back()->with('success', 'Success notification test.');
+    session()->flash('success', 'Success notification test.');
+    return view('test_toastr');
 });
-
 Route::get('/test-error', function () {
-    return redirect()->back()->with('error', 'Error notification test.');
+    return redirect('/toastr-test')->with('error', 'Error notification test.');
 });
-
 Route::get('/test-info', function () {
-    return redirect()->back()->with('info', 'Info notification test.');
+    return redirect('/toastr-test')->with('info', 'Info notification test.');
+});
+Route::get('/test-warning', function () {
+    return redirect('/toastr-test')->with('warning', 'Warning notification test.');
 });
 
-Route::get('/test-warning', function () {
-    return redirect()->back()->with('warning', 'Warning notification test.');
-});
+
 
 Route::post('/favorites/toggle', [FavoritesController::class, 'toggle'])->middleware('auth');
 

@@ -107,6 +107,7 @@
             <div class="max-h-72 overflow-y-auto">
             @foreach ($user->comments()->orderBy('updated_at', 'desc')->get() as $comment)
             <div class="p-4 my-2 bg-gray-50 rounded-xl">
+            <a href="{{ route('books.show', ['id' => $comment->book->id]) }}" class="hover:underline">
                 <p class="text-sm font-semibold">{{ $user->name }}</p>
                 <p>{{ $comment->body }}</p>
                 <p class="text-xs">
@@ -116,6 +117,7 @@
                         <p>Book title not available.</p>
                     @endif
                 </p>
+</a>
             </div>
             @endforeach
             </div>
